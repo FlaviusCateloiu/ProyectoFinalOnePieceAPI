@@ -6,11 +6,13 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Document("piratas")
-public class Pirata extends Personaje {
+public class Pirata extends Personaje implements Serializable {
     @Field
     private String nomBarcoPirata;
     @Field
