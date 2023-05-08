@@ -1,7 +1,10 @@
 package com.project.proyectofinalonepiece.controladores;
 
+import com.project.proyectofinalonepiece.modelos.FrutaDelDiablo;
 import com.project.proyectofinalonepiece.modelos.Marine;
 import com.project.proyectofinalonepiece.modelos.Pirata;
+import com.project.proyectofinalonepiece.servicios.FrutaDelDiabloImp;
+import com.project.proyectofinalonepiece.servicios.FrutaDelDiabloServicio;
 import com.project.proyectofinalonepiece.servicios.MarineServicio;
 import com.project.proyectofinalonepiece.servicios.PirataServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,8 @@ public class ControladorAPI {
     private PirataServicio pirataServicio;
     @Autowired
     private MarineServicio marineServicio;
+    @Autowired
+    private FrutaDelDiabloServicio frutaDelDiabloServicio;
 
     //PIRATAS
     @GetMapping(value = "/api/personajes/piratas")
@@ -80,5 +85,37 @@ public class ControladorAPI {
     @DeleteMapping(value = "/api/delete/personajes/marines/{id}")
     public ResponseEntity<Marine> removeMarine(@PathVariable("id") String id) {
         return ResponseEntity.ok(marineServicio.deleteMarine(id));
+    }
+
+    //FRUTAS DEL DIABLO
+    @GetMapping(value = "/api/frutas_del_diablo")
+    public ResponseEntity<List<FrutaDelDiablo>> getFrutasDelDiablo() {
+        return ResponseEntity.ok(frutaDelDiabloServicio.findAllFrutasDelDiablo());
+    }
+
+    @GetMapping(value = "/api/frutas_del_diablo/{id}")
+    public ResponseEntity<FrutaDelDiablo> getFrutaDelDiablo(@PathVariable("id") String id) {
+        return ResponseEntity.ok(frutaDelDiabloServicio.findFrutaDelDiablo(id));
+    }
+
+    @PostMapping(value = "/api/create/frutas_del_diablo")
+    public ResponseEntity<FrutaDelDiablo> addFrutaDelDiablo(@RequestBody FrutaDelDiablo frutaDelDiablo) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(frutaDelDiabloServicio.createFrutaDelDiablo(frutaDelDiablo));
+    }
+
+    @PutMapping(value = "/api/update/frutas_del_diablo/{id}")
+    public ResponseEntity<FrutaDelDiablo> updateFrutaDelDiablo(@PathVariable("id") String id, @RequestBody FrutaDelDiablo frutaDelDiablo) {
+        FrutaDelDiablo frutaDelDiabloExistente = frutaDelDiabloServicio.findFrutaDelDiablo(frutaDelDiablo.getId());
+
+        if (frutaDelDiabloExistente == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(frutaDelDiabloServicio.updateFrutaDelDiablo(frutaDelDiablo));
+    }
+
+    @DeleteMapping(value = "/api/delete/frutas_del_diablo/{id}")
+    public ResponseEntity<FrutaDelDiablo> removeFrutaDelDiablo(@PathVariable("id") String id) {
+        return ResponseEntity.ok(frutaDelDiabloServicio.deleteFrutaDelDiablo(id));
     }
 }

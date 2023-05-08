@@ -4,28 +4,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Personaje {
+@Document("frutas")
+public class FrutaDelDiablo {
     @Id
     private String id;
     @Field
     private String nombre;
     @Field
-    private String apellido;
+    private String tipo;
     @Field
-    private boolean jubilado;
+    private String habilidad;
     @Field
-    private int edad;
-    @Field
-    private double altura;
-    @Field
-    private int diaNacimiento;
-    @Field
-    private int mesNacimiento;
-    @Field
-    private FrutaDelDiablo frutaDelDiablo;
+    private String consumidor;
 }
