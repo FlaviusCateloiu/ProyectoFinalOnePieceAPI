@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface FrutaDelDiabloRepositorio extends MongoRepository<FrutaDelDiablo, String> {
     FrutaDelDiablo findByNombre(String nombre);
+    FrutaDelDiablo findByIdConsumidor(String idConsumidor);
     List<FrutaDelDiablo> findByNombreContaining(String nombre);
     void deleteById(String id);
     Optional<FrutaDelDiablo> findById(String id);

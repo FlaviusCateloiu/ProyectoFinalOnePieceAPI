@@ -1,7 +1,6 @@
 package com.project.proyectofinalonepiece.servicios;
 
 import com.project.proyectofinalonepiece.modelos.FrutaDelDiablo;
-import com.project.proyectofinalonepiece.modelos.Marine;
 import com.project.proyectofinalonepiece.repositorios.FrutaDelDiabloRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class FrutaDelDiabloImp implements FrutaDelDiabloServicio {
+public class FrutaDelDiabloServicioImp implements FrutaDelDiabloServicio {
 
     @Autowired
     FrutaDelDiabloRepositorio frutaDelDiabloRepositorio;

@@ -17,15 +17,23 @@ public class Personaje {
     @Field
     private String apellido;
     @Field
+    private String descripcion;
+    @Field
+    private String raza;
+    @Field
+    private String primeraAparicion;
+    @Field
     private boolean jubilado;
+    @Field
+    private boolean vivo;
     @Field
     private int edad;
     @Field
-    private double altura;
+    private int altura;
     @Field
     private int diaNacimiento;
     @Field
     private int mesNacimiento;
     @Field
-    private FrutaDelDiablo frutaDelDiablo;
+    private String idFrutaDelDiablo;
 }

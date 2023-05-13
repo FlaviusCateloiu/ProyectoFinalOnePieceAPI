@@ -17,9 +17,13 @@ public class FrutaDelDiablo {
     @Field
     private String nombre;
     @Field
+    private String descripcion;
+    @Field
+    private String primeraAparicion;
+    @Field
     private String tipo;
     @Field
     private String habilidad;
     @Field
-    private String consumidor;
+    private String idConsumidor;
 }

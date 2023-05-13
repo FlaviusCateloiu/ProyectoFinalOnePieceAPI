@@ -1,10 +1,11 @@
 package com.project.proyectofinalonepiece.controladores;
 
 import com.project.proyectofinalonepiece.modelos.FrutaDelDiablo;
+import com.project.proyectofinalonepiece.modelos.Isla;
 import com.project.proyectofinalonepiece.modelos.Marine;
 import com.project.proyectofinalonepiece.modelos.Pirata;
-import com.project.proyectofinalonepiece.servicios.FrutaDelDiabloImp;
 import com.project.proyectofinalonepiece.servicios.FrutaDelDiabloServicio;
+import com.project.proyectofinalonepiece.servicios.IslaServicio;
 import com.project.proyectofinalonepiece.servicios.MarineServicio;
 import com.project.proyectofinalonepiece.servicios.PirataServicio;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class ControladorAPI {
     private MarineServicio marineServicio;
     @Autowired
     private FrutaDelDiabloServicio frutaDelDiabloServicio;
+    @Autowired
+    private IslaServicio islaServicio;
 
     //PIRATAS
     @GetMapping(value = "/api/personajes/piratas")
@@ -117,5 +120,37 @@ public class ControladorAPI {
     @DeleteMapping(value = "/api/delete/frutas_del_diablo/{id}")
     public ResponseEntity<FrutaDelDiablo> removeFrutaDelDiablo(@PathVariable("id") String id) {
         return ResponseEntity.ok(frutaDelDiabloServicio.deleteFrutaDelDiablo(id));
+    }
+
+    //ISLA
+    @GetMapping(value = "/api/islas")
+    public ResponseEntity<List<Isla>> getIslas() {
+        return ResponseEntity.ok(islaServicio.findAllIslas());
+    }
+
+    @GetMapping(value = "/api/islas/{id}")
+    public ResponseEntity<Isla> getIsla(@PathVariable("id") String id) {
+        return ResponseEntity.ok(islaServicio.findIsla(id));
+    }
+
+    @PostMapping(value = "/api/create/islas")
+    public ResponseEntity<Isla> addIsla(@RequestBody Isla isla) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(islaServicio.createIsla(isla));
+    }
+
+    @PutMapping(value = "/api/update/islas/{id}")
+    public ResponseEntity<Isla> updateIsla(@PathVariable("id") String id, @RequestBody Isla isla) {
+        Isla islaExistente = islaServicio.findIsla(isla.getId());
+
+        if (islaExistente == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(islaServicio.updateIsla(isla));
+    }
+
+    @DeleteMapping(value = "/api/delete/islas/{id}")
+    public ResponseEntity<Isla> removeIsla(@PathVariable("id") String id) {
+        return ResponseEntity.ok(islaServicio.deleteIsla(id));
     }
 }
