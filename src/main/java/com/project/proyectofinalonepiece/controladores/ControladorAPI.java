@@ -1,9 +1,6 @@
 package com.project.proyectofinalonepiece.controladores;
 
-import com.project.proyectofinalonepiece.modelos.FrutaDelDiablo;
-import com.project.proyectofinalonepiece.modelos.Isla;
-import com.project.proyectofinalonepiece.modelos.Marine;
-import com.project.proyectofinalonepiece.modelos.Pirata;
+import com.project.proyectofinalonepiece.modelos.*;
 import com.project.proyectofinalonepiece.servicios.FrutaDelDiabloServicio;
 import com.project.proyectofinalonepiece.servicios.IslaServicio;
 import com.project.proyectofinalonepiece.servicios.MarineServicio;
@@ -39,6 +36,12 @@ public class ControladorAPI {
 
     @PostMapping(value = "/api/create/personajes/piratas")
     public ResponseEntity<Pirata> addPiloto(@RequestBody Pirata pirata) {
+        FrutaDelDiablo frutaExiste = frutaDelDiabloServicio.findFrutaDelDiablo(pirata.getIdFrutaDelDiablo());
+
+        if (frutaExiste == null) {
+            pirata.setIdFrutaDelDiablo("");
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(pirataServicio.createPirata(pirata));
     }
 
@@ -71,6 +74,12 @@ public class ControladorAPI {
 
     @PostMapping(value = "/api/create/personajes/marines")
     public ResponseEntity<Marine> addMarine(@RequestBody Marine marine) {
+        FrutaDelDiablo frutaExiste = frutaDelDiabloServicio.findFrutaDelDiablo(marine.getIdFrutaDelDiablo());
+
+        if (frutaExiste == null) {
+            marine.setIdFrutaDelDiablo("");
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(marineServicio.createMarine(marine));
     }
 
@@ -103,6 +112,15 @@ public class ControladorAPI {
 
     @PostMapping(value = "/api/create/frutas_del_diablo")
     public ResponseEntity<FrutaDelDiablo> addFrutaDelDiablo(@RequestBody FrutaDelDiablo frutaDelDiablo) {
+        Pirata pirataExiste = pirataServicio.findPirata(frutaDelDiablo.getIdConsumidor());
+        Marine marineExiste = marineServicio.findMarine(frutaDelDiablo.getIdConsumidor());
+
+        if (pirataExiste == null) {
+            if (marineExiste == null) {
+                frutaDelDiablo.setIdConsumidor("");
+            }
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(frutaDelDiabloServicio.createFrutaDelDiablo(frutaDelDiablo));
     }
 
@@ -135,6 +153,12 @@ public class ControladorAPI {
 
     @PostMapping(value = "/api/create/islas")
     public ResponseEntity<Isla> addIsla(@RequestBody Isla isla) {
+        Pirata pirataExiste = pirataServicio.findPirata(isla.getIdPirataDominante());
+
+        if (pirataExiste ==  null) {
+            isla.setIdPirataDominante("");
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(islaServicio.createIsla(isla));
     }
 
