@@ -11,7 +11,7 @@ import java.util.List;
 public class MarineServicioImp implements MarineServicio {
 
     @Autowired
-    public MarineRepositorio marineRepositorio;
+    private MarineRepositorio marineRepositorio;
 
     @Override
     public List<Marine> findAllMarines() {

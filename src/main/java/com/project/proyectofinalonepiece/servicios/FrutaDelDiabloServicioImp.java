@@ -11,7 +11,7 @@ import java.util.List;
 public class FrutaDelDiabloServicioImp implements FrutaDelDiabloServicio {
 
     @Autowired
-    FrutaDelDiabloRepositorio frutaDelDiabloRepositorio;
+    private FrutaDelDiabloRepositorio frutaDelDiabloRepositorio;
 
     @Override
     public List<FrutaDelDiablo> findAllFrutasDelDiablo() {

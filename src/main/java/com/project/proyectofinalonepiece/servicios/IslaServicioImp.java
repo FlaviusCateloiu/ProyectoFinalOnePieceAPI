@@ -11,7 +11,7 @@ import java.util.List;
 public class IslaServicioImp implements IslaServicio {
 
     @Autowired
-    IslaRepositorio islaRepositorio;
+    private IslaRepositorio islaRepositorio;
 
     @Override
     public List<Isla> findAllIslas() {
