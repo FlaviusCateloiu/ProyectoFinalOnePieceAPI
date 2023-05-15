@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 @Data
 @NoArgsConstructor
@@ -15,9 +14,9 @@ import java.util.ArrayList;
 @Document("piratas")
 public class Pirata extends Personaje implements Serializable {
     @Field
-    private String nomBarcoPirata;
+    private String banderaPirata;
     @Field
-    private long precioCabeza;
+    private int precioCabeza;
     @Field
     private String rangoPirata;
 }

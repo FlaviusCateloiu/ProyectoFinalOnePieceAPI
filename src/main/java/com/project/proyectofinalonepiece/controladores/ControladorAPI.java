@@ -4,6 +4,7 @@ import com.project.proyectofinalonepiece.modelos.*;
 import com.project.proyectofinalonepiece.servicios.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,28 +30,30 @@ public class ControladorAPI {
     }
 
     @GetMapping(value = "/api/personajes/piratas/{id}")
-    public ResponseEntity<Pirata> getPiloto(@PathVariable("id") String id) {
+    public ResponseEntity<Pirata> getPirata(@PathVariable("id") String id) {
         return ResponseEntity.ok(pirataServicio.findPirata(id));
     }
 
-    @PostMapping(value = "/api/create/personajes/piratas")
-    public ResponseEntity<Pirata> addPiloto(@RequestBody Pirata pirata) {
-        FrutaDelDiablo frutaExiste = frutaDelDiabloServicio.findFrutaDelDiablo(pirata.getIdFrutaDelDiablo());
-        Arma armaExiste = armaServicio.findArma(pirata.getIdArma());
-
-        if (frutaExiste == null) {
-            pirata.setIdFrutaDelDiablo("");
+    @PostMapping(value = "/api/create/personajes/piratas", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Pirata> addPirata(@RequestBody Pirata pirata) {
+        if (!pirata.getIdFrutaDelDiablo().equals("")) {
+            FrutaDelDiablo frutaExiste = frutaDelDiabloServicio.findFrutaDelDiablo(pirata.getIdFrutaDelDiablo());
+            if (frutaExiste == null) {
+                pirata.setIdFrutaDelDiablo("");
+            }
         }
-
-        if (armaExiste == null) {
-            pirata.setIdArma("");
+        if (!pirata.getIdArma().equals("")) {
+            Arma armaExiste = armaServicio.findArma(pirata.getIdArma());
+            if (armaExiste == null) {
+                pirata.setIdArma("");
+            }
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(pirataServicio.createPirata(pirata));
     }
 
     @PutMapping(value = "/api/update/personajes/piratas/{id}")
-    public ResponseEntity<Pirata> updatePiloto(@PathVariable("id") String id, @RequestBody Pirata pirata) {
+    public ResponseEntity<Pirata> updatePirata(@PathVariable("id") String id, @RequestBody Pirata pirata) {
         Pirata pirataExistente = pirataServicio.findPirata(pirata.getId());
 
         if (pirataExistente == null) {
@@ -72,7 +75,7 @@ public class ControladorAPI {
     }
 
     @DeleteMapping(value = "/api/delete/personajes/piratas/{id}")
-    public ResponseEntity<Pirata> removePiloto(@PathVariable("id") String id) {
+    public ResponseEntity<Pirata> removePirata(@PathVariable("id") String id) {
         return ResponseEntity.ok(pirataServicio.deletePirata(id));
     }
 
