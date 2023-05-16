@@ -39,12 +39,18 @@ public class ControladorAPI {
             FrutaDelDiablo frutaExiste = frutaDelDiabloServicio.findFrutaDelDiablo(pirata.getIdFrutaDelDiablo());
             if (frutaExiste == null) {
                 pirata.setIdFrutaDelDiablo("");
+            } else {
+                frutaExiste.setIdConsumidor(pirata.getId());
+                frutaDelDiabloServicio.updateFrutaDelDiablo(frutaExiste);
             }
         }
         if (!pirata.getIdArma().equals("")) {
             Arma armaExiste = armaServicio.findArma(pirata.getIdArma());
             if (armaExiste == null) {
                 pirata.setIdArma("");
+            } else {
+                armaExiste.setIdPropietario(pirata.getId());
+                armaServicio.updateArma(armaExiste);
             }
         }
 
@@ -57,17 +63,6 @@ public class ControladorAPI {
 
         if (pirataExistente == null) {
             return ResponseEntity.notFound().build();
-        }
-
-        FrutaDelDiablo frutaExiste = frutaDelDiabloServicio.findFrutaDelDiablo(pirata.getIdFrutaDelDiablo());
-        Arma armaExiste = armaServicio.findArma(pirata.getIdArma());
-
-        if (frutaExiste == null) {
-            pirata.setIdFrutaDelDiablo("");
-        }
-
-        if (armaExiste == null) {
-            pirata.setIdArma("");
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(pirataServicio.updatePirata(pirata));
@@ -96,12 +91,18 @@ public class ControladorAPI {
             FrutaDelDiablo frutaExiste = frutaDelDiabloServicio.findFrutaDelDiablo(marine.getIdFrutaDelDiablo());
             if (frutaExiste == null) {
                 marine.setIdFrutaDelDiablo("");
+            } else {
+                frutaExiste.setIdConsumidor(marine.getId());
+                frutaDelDiabloServicio.updateFrutaDelDiablo(frutaExiste);
             }
         }
         if (!marine.getIdArma().equals("")) {
             Arma armaExiste = armaServicio.findArma(marine.getIdArma());
             if (armaExiste == null) {
                 marine.setIdArma("");
+            } else {
+                armaExiste.setIdPropietario(marine.getId());
+                armaServicio.updateArma(armaExiste);
             }
         }
 
@@ -116,15 +117,23 @@ public class ControladorAPI {
             return ResponseEntity.notFound().build();
         }
 
-        FrutaDelDiablo frutaExiste = frutaDelDiabloServicio.findFrutaDelDiablo(marine.getIdFrutaDelDiablo());
-        Arma armaExiste = armaServicio.findArma(marine.getIdArma());
-
-        if (frutaExiste == null) {
-            marine.setIdFrutaDelDiablo("");
+        if (!marine.getIdFrutaDelDiablo().equals("")) {
+            FrutaDelDiablo frutaExiste = frutaDelDiabloServicio.findFrutaDelDiablo(marine.getIdFrutaDelDiablo());
+            if (frutaExiste == null) {
+                marine.setIdFrutaDelDiablo("");
+            } else {
+                frutaExiste.setIdConsumidor(marine.getId());
+                frutaDelDiabloServicio.updateFrutaDelDiablo(frutaExiste);
+            }
         }
-
-        if (armaExiste == null) {
-            marine.setIdArma("");
+        if (!marine.getIdArma().equals("")) {
+            Arma armaExiste = armaServicio.findArma(marine.getIdArma());
+            if (armaExiste == null) {
+                marine.setIdArma("");
+            } else {
+                armaExiste.setIdPropietario(marine.getId());
+                armaServicio.updateArma(armaExiste);
+            }
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(marineServicio.updateMarine(marine));
@@ -148,12 +157,21 @@ public class ControladorAPI {
 
     @PostMapping(value = "/api/create/frutas_del_diablo")
     public ResponseEntity<FrutaDelDiablo> addFrutaDelDiablo(@RequestBody FrutaDelDiablo frutaDelDiablo) {
-        Pirata pirataExiste = pirataServicio.findPirata(frutaDelDiablo.getIdConsumidor());
-        Marine marineExiste = marineServicio.findMarine(frutaDelDiablo.getIdConsumidor());
 
-        if (pirataExiste == null) {
-            if (marineExiste == null) {
-                frutaDelDiablo.setIdConsumidor("");
+        if (!frutaDelDiablo.getIdConsumidor().equals("")) {
+            Pirata pirataExiste = pirataServicio.findPirata(frutaDelDiablo.getIdConsumidor());
+            Marine marineExiste = marineServicio.findMarine(frutaDelDiablo.getIdConsumidor());
+
+            if (pirataExiste == null) {
+                if (marineExiste == null) {
+                    frutaDelDiablo.setIdConsumidor("");
+                } else {
+                    marineExiste.setIdFrutaDelDiablo(frutaDelDiablo.getId());
+                    marineServicio.updateMarine(marineExiste);
+                }
+            } else {
+                pirataExiste.setIdFrutaDelDiablo(frutaDelDiablo.getId());
+                pirataServicio.updatePirata(pirataExiste);
             }
         }
 
@@ -166,6 +184,23 @@ public class ControladorAPI {
 
         if (frutaDelDiabloExistente == null) {
             return ResponseEntity.notFound().build();
+        }
+
+        if (!frutaDelDiablo.getIdConsumidor().equals("")) {
+            Pirata pirataExiste = pirataServicio.findPirata(frutaDelDiablo.getIdConsumidor());
+            Marine marineExiste = marineServicio.findMarine(frutaDelDiablo.getIdConsumidor());
+
+            if (pirataExiste == null) {
+                if (marineExiste == null) {
+                    frutaDelDiablo.setIdConsumidor("");
+                } else {
+                    marineExiste.setIdFrutaDelDiablo(frutaDelDiablo.getId());
+                    marineServicio.updateMarine(marineExiste);
+                }
+            } else {
+                pirataExiste.setIdFrutaDelDiablo(frutaDelDiablo.getId());
+                pirataServicio.updatePirata(pirataExiste);
+            }
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(frutaDelDiabloServicio.updateFrutaDelDiablo(frutaDelDiablo));
@@ -189,10 +224,13 @@ public class ControladorAPI {
 
     @PostMapping(value = "/api/create/islas")
     public ResponseEntity<Isla> addIsla(@RequestBody Isla isla) {
-        Pirata pirataExiste = pirataServicio.findPirata(isla.getIdPirataDominante());
 
-        if (pirataExiste ==  null) {
-            isla.setIdPirataDominante("");
+        if (!isla.getIdPirataDominante().equals("")) {
+            Pirata pirataExiste = pirataServicio.findPirata(isla.getIdPirataDominante());
+
+            if (pirataExiste == null) {
+                isla.setIdPirataDominante("");
+            }
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(islaServicio.createIsla(isla));
@@ -204,6 +242,14 @@ public class ControladorAPI {
 
         if (islaExistente == null) {
             return ResponseEntity.notFound().build();
+        }
+
+        if (!isla.getIdPirataDominante().equals("")) {
+            Pirata pirataExiste = pirataServicio.findPirata(isla.getIdPirataDominante());
+
+            if (pirataExiste == null) {
+                isla.setIdPirataDominante("");
+            }
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(islaServicio.updateIsla(isla));
@@ -227,12 +273,21 @@ public class ControladorAPI {
 
     @PostMapping(value = "/api/create/armas")
     public ResponseEntity<Arma> addArma(@RequestBody Arma arma) {
-        Pirata pirataExiste = pirataServicio.findPirata(arma.getIdPropietario());
-        Marine marineExiste = marineServicio.findMarine(arma.getIdPropietario());
 
-        if (pirataExiste == null) {
-            if (marineExiste == null) {
-                arma.setIdPropietario("");
+        if (!arma.getIdPropietario().equals("")) {
+            Pirata pirataExiste = pirataServicio.findPirata(arma.getIdPropietario());
+            Marine marineExiste = marineServicio.findMarine(arma.getIdPropietario());
+
+            if (pirataExiste == null) {
+                if (marineExiste == null) {
+                    arma.setIdPropietario("");
+                } else {
+                    marineExiste.setIdArma(arma.getId());
+                    marineServicio.updateMarine(marineExiste);
+                }
+            } else {
+                pirataExiste.setIdArma(arma.getId());
+                pirataServicio.updatePirata(pirataExiste);
             }
         }
 
@@ -245,6 +300,23 @@ public class ControladorAPI {
 
         if (armaExistente == null) {
             return ResponseEntity.notFound().build();
+        }
+
+        if (!arma.getIdPropietario().equals("")) {
+            Pirata pirataExiste = pirataServicio.findPirata(arma.getIdPropietario());
+            Marine marineExiste = marineServicio.findMarine(arma.getIdPropietario());
+
+            if (pirataExiste == null) {
+                if (marineExiste == null) {
+                    arma.setIdPropietario("");
+                } else {
+                    marineExiste.setIdArma(arma.getId());
+                    marineServicio.updateMarine(marineExiste);
+                }
+            } else {
+                pirataExiste.setIdArma(arma.getId());
+                pirataServicio.updatePirata(pirataExiste);
+            }
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(armaServicio.updateArma(arma));
