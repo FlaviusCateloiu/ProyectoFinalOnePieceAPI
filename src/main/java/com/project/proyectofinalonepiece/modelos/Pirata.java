@@ -18,7 +18,7 @@ public class Pirata extends Personaje implements Serializable {
     @Field
     private String banderaPirata;
     @Field
-    private int precioCabeza;
+    private long precioCabeza;
     @Field
     private String rangoPirata;
 }
