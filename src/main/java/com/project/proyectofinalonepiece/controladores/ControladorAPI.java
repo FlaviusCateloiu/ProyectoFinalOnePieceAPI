@@ -34,7 +34,7 @@ public class ControladorAPI {
         return ResponseEntity.ok(pirataServicio.findPirata(id));
     }
 
-    @PostMapping(value = "/api/create/personajes/piratas", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/api/create/personajes/piratas")
     public ResponseEntity<Pirata> addPirata(@RequestBody Pirata pirata) {
         if (!pirata.getIdFrutaDelDiablo().equals("")) {
             FrutaDelDiablo frutaExiste = frutaDelDiabloServicio.findFrutaDelDiablo(pirata.getIdFrutaDelDiablo());
@@ -92,15 +92,18 @@ public class ControladorAPI {
 
     @PostMapping(value = "/api/create/personajes/marines")
     public ResponseEntity<Marine> addMarine(@RequestBody Marine marine) {
-        FrutaDelDiablo frutaExiste = frutaDelDiabloServicio.findFrutaDelDiablo(marine.getIdFrutaDelDiablo());
-        Arma armaExiste = armaServicio.findArma(marine.getIdArma());
 
-        if (frutaExiste == null) {
-            marine.setIdFrutaDelDiablo("");
+        if (!marine.getIdFrutaDelDiablo().equals("")) {
+            FrutaDelDiablo frutaExiste = frutaDelDiabloServicio.findFrutaDelDiablo(marine.getIdFrutaDelDiablo());
+            if (frutaExiste == null) {
+                marine.setIdFrutaDelDiablo("");
+            }
         }
-
-        if (armaExiste == null) {
-            marine.setIdArma("");
+        if (!marine.getIdArma().equals("")) {
+            Arma armaExiste = armaServicio.findArma(marine.getIdArma());
+            if (armaExiste == null) {
+                marine.setIdArma("");
+            }
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(marineServicio.createMarine(marine));
